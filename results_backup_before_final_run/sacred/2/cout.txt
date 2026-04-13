@@ -1,0 +1,11 @@
+EPISODE LIMIT IS  90
+Episode # 0  | Current time step:  458  | Average Episode Win Num:  0.375  | Average Episode Reward:  160.70847561045372  | Average Episode Length:  57.25
+--------------------------------
+Episode # 8  | Current time step:  942  | Average Episode Win Num:  0.25  | Average Episode Reward:  150.08373926922638  | Average Episode Length:  60.5
+--------------------------------
+Episode # 16  | Current time step:  1248  | Average Episode Win Num:  0.0  | Average Episode Reward:  177.22601743896098  | Average Episode Length:  38.25
+--------------------------------
+Episode # 24  | Current time step:  1537  | Average Episode Win Num:  0.125  | Average Episode Reward:  179.72376744122266  | Average Episode Length:  36.125
+--------------------------------
+Episode # 32  | Current time step:  1948  | Average Episode Win Num:  0.25  | Average Episode Reward:  184.10289790649404  | Average Episode Length:  51.375
+--------------------------------

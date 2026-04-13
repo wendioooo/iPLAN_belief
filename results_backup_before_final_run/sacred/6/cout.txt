@@ -1,0 +1,34 @@
+EPISODE LIMIT IS  90
+Episode # 0  | Current time step:  178  | Average Episode Win Num:  3.0  | Average Episode Reward:  256.22261634426894  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 2  | Current time step:  356  | Average Episode Win Num:  2.5  | Average Episode Reward:  205.32698463113783  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 4  | Current time step:  534  | Average Episode Win Num:  1.5  | Average Episode Reward:  154.03657106135194  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 6  | Current time step:  712  | Average Episode Win Num:  1.0  | Average Episode Reward:  127.90964064485767  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 8  | Current time step:  890  | Average Episode Win Num:  1.0  | Average Episode Reward:  134.09076346532544  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 10  | Current time step:  1068  | Average Episode Win Num:  2.0  | Average Episode Reward:  200.98811482522837  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 12  | Current time step:  1246  | Average Episode Win Num:  3.5  | Average Episode Reward:  280.078791922864  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 14  | Current time step:  1422  | Average Episode Win Num:  0.5  | Average Episode Reward:  140.9700367960386  | Average Episode Length:  88.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 16  | Current time step:  1524  | Average Episode Win Num:  1.0  | Average Episode Reward:  253.65034220270684  | Average Episode Length:  51.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 18  | Current time step:  1635  | Average Episode Win Num:  1.0  | Average Episode Reward:  246.57748767356455  | Average Episode Length:  55.5
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------
+Episode # 20  | Current time step:  1813  | Average Episode Win Num:  1.5  | Average Episode Reward:  156.99579491732402  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+--------------------------------

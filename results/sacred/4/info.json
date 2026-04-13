@@ -1,0 +1,32 @@
+{
+  "ippo_GAT_behavior_stable_H_Average episode_len": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_len_T": [
+    89
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 158.64578605701715
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward_T": [
+    89
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num_T": [
+    89
+  ]
+}

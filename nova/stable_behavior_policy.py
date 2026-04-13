@@ -310,3 +310,14 @@ class Behavior_policy:
             for i in range(self.n_agents):
                 self.behavior_optimizer[i].load_state_dict(torch.load("{}/behavior_optimizer_{}_opt.th".format(paths[i], i),
                                                                       map_location=lambda storage, loc: storage))
+
+    def freeze(self):
+        for behavior_encoder in self.behavior_encoder:
+            behavior_encoder.eval()
+            for param in behavior_encoder.parameters():
+                param.requires_grad = False
+
+        for behavior_decoder in self.behavior_decoder:
+            behavior_decoder.eval()
+            for param in behavior_decoder.parameters():
+                param.requires_grad = False

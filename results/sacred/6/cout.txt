@@ -1,0 +1,6 @@
+EPISODE LIMIT IS  90
+MODEL PATH IS  E:\Projects\PhD\iplan\iPLAN\results\models\ippo_highway__seed=81696026_04-12-21-57-50\40433
+Episode # 0  | Current time step:  17  | Average Episode Win Num:  0.0  | Average Episode Reward:  40.05000838226178  | Average Episode Length:  17.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------

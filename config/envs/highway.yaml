@@ -4,8 +4,8 @@ n_lane: 8
 n_actions: 5
 obs_shape_single: 5
 n_agents: 5
-n_other_vehicles: 50
-n_obs_vehicles: 15
+n_other_vehicles: 12
+n_obs_vehicles: 6
 episode_limit: 90
 scaling: 2.0
 screen_height: 300

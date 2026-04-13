@@ -32,9 +32,7 @@ class SeparatedReplayBuffer(object):
         self.available_actions = deque(maxlen=self.buffer_size)
 
         self.histories = deque(maxlen=self.buffer_size)
-        self.behavior_latent = deque(maxlen=self.buffer_size)
-
-        self.attention_latent = deque(maxlen=self.buffer_size)
+        self.instant_belief = deque(maxlen=self.buffer_size)
 
     def can_sample(self):
         # print("LEN SELF OBS IS ", len(self.obs))
@@ -46,7 +44,7 @@ class SeparatedReplayBuffer(object):
 
     def insert(self, state, obs, rnn_states_actor, rnn_states_critic, 
                actions, actions_onehot, rewards, terminated_masks,
-               histories, behavior_latent, attention_latent, active_masks=None, available_actions=None):
+               histories, instant_belief=None, active_masks=None, available_actions=None):
 
         for i in range(self.batch_size_run):
             self.state.append(self.data_wrapper(state, i))
@@ -59,9 +57,8 @@ class SeparatedReplayBuffer(object):
             self.terminated_masks.append(self.data_wrapper(terminated_masks, i))
 
             self.histories.append(self.data_wrapper(histories, i))
-            self.behavior_latent.append(self.data_wrapper(behavior_latent, i))
-
-            self.attention_latent.append(self.data_wrapper(attention_latent, i))
+            if instant_belief is not None:
+                self.instant_belief.append(self.data_wrapper(instant_belief, i))
 
             if active_masks is not None:
                 self.active_masks.append(self.data_wrapper(active_masks, i))
@@ -82,9 +79,8 @@ class SeparatedReplayBuffer(object):
         batch['terminated_masks'] = th.cat(list(self.terminated_masks))
 
         batch['history'] = th.cat(list(self.histories))
-        batch['behavior_latent'] = th.cat(list(self.behavior_latent))
-
-        batch['attention_latent'] = th.cat(list(self.attention_latent))
+        if len(self.instant_belief) != 0:
+            batch['instant_belief'] = th.cat(list(self.instant_belief))
 
         if len(self.active_masks) != 0:
             batch['active_masks'] = th.cat(list(self.active_masks))
@@ -105,6 +101,4 @@ class SeparatedReplayBuffer(object):
         self.available_actions.clear()
 
         self.histories.clear()
-        self.behavior_latent.clear()
-
-        self.attention_latent.clear()
+        self.instant_belief.clear()

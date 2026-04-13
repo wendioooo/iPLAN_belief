@@ -1,0 +1,2 @@
+EPISODE LIMIT IS  90
+MODEL PATH IS  E:\Projects\PhD\iplan\iPLAN\results\models\ippo_highway__seed=81696026_04-12-21-57-50\40433

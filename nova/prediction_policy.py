@@ -284,3 +284,14 @@ class Prediction_policy:
             for i in range(self.n_agents):
                 self.pred_optimizer[i].load_state_dict(torch.load("{}/pred_optimizer_{}_opt.th".format(paths[i], i),
                                                                       map_location=lambda storage, loc: storage))
+
+    def freeze(self):
+        for pred_GAT in self.pred_GAT:
+            pred_GAT.eval()
+            for param in pred_GAT.parameters():
+                param.requires_grad = False
+
+        for pred_decoder in self.pred_decoder:
+            pred_decoder.eval()
+            for param in pred_decoder.parameters():
+                param.requires_grad = False

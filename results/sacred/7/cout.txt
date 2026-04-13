@@ -1,0 +1,110 @@
+EPISODE LIMIT IS  90
+MODEL PATH IS  E:\Projects\PhD\iplan\iPLAN\results\models\ippo_highway__seed=81696026_04-12-21-57-50\40433
+Episode # 0  | Current time step:  89  | Average Episode Win Num:  1.0  | Average Episode Reward:  135.33762627113808  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 1  | Current time step:  178  | Average Episode Win Num:  1.0  | Average Episode Reward:  150.2831851017183  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 2  | Current time step:  267  | Average Episode Win Num:  2.0  | Average Episode Reward:  185.4800280704643  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 3  | Current time step:  326  | Average Episode Win Num:  0.0  | Average Episode Reward:  204.21840177475826  | Average Episode Length:  59.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 4  | Current time step:  333  | Average Episode Win Num:  0.0  | Average Episode Reward:  23.27949370411417  | Average Episode Length:  7.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 5  | Current time step:  386  | Average Episode Win Num:  0.0  | Average Episode Reward:  73.75276670489771  | Average Episode Length:  53.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 6  | Current time step:  475  | Average Episode Win Num:  3.0  | Average Episode Reward:  253.14293380423678  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 7  | Current time step:  564  | Average Episode Win Num:  1.0  | Average Episode Reward:  148.06565715348  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 8  | Current time step:  653  | Average Episode Win Num:  2.0  | Average Episode Reward:  236.71755759578159  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 9  | Current time step:  742  | Average Episode Win Num:  1.0  | Average Episode Reward:  154.6504977500316  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 10  | Current time step:  831  | Average Episode Win Num:  2.0  | Average Episode Reward:  199.63625006645498  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 11  | Current time step:  920  | Average Episode Win Num:  1.0  | Average Episode Reward:  116.45736058349003  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 12  | Current time step:  1009  | Average Episode Win Num:  2.0  | Average Episode Reward:  205.99114135544053  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 13  | Current time step:  1098  | Average Episode Win Num:  3.0  | Average Episode Reward:  281.440337089906  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 14  | Current time step:  1187  | Average Episode Win Num:  1.0  | Average Episode Reward:  112.67167036149122  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 15  | Current time step:  1225  | Average Episode Win Num:  0.0  | Average Episode Reward:  51.874326606494  | Average Episode Length:  38.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 16  | Current time step:  1314  | Average Episode Win Num:  4.0  | Average Episode Reward:  308.5320318535313  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 17  | Current time step:  1403  | Average Episode Win Num:  1.0  | Average Episode Reward:  104.6967564055659  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 18  | Current time step:  1492  | Average Episode Win Num:  3.0  | Average Episode Reward:  253.2517726620241  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 19  | Current time step:  1581  | Average Episode Win Num:  1.0  | Average Episode Reward:  208.2659441266663  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 20  | Current time step:  1670  | Average Episode Win Num:  3.0  | Average Episode Reward:  227.60126157218747  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 21  | Current time step:  1759  | Average Episode Win Num:  2.0  | Average Episode Reward:  213.90395928049668  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+Episode # 22  | Current time step:  1848  | Average Episode Win Num:  1.0  | Average Episode Reward:  226.78441115024773  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------
+TRAINING IPPO
+Episode # 23  | Current time step:  1937  | Average Episode Win Num:  4.0  | Average Episode Reward:  309.33881531914255  | Average Episode Length:  89.0
+Behavior Loss 0  | Stability Loss 0  | Behavior Total Loss 0
+Prediction Loss 0
+--------------------------------

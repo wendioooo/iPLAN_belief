@@ -1,0 +1,115 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "E:\\Projects\\PhD\\iplan\\iPLAN",
+    "dependencies": [
+      "numpy==1.24.4",
+      "PyYAML==6.0.3",
+      "sacred==0.8.7",
+      "torch==1.13.1+cu116"
+    ],
+    "mainfile": "main.py",
+    "name": "Highway_iPLAN",
+    "repositories": [
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources\\main_239eff7e0a3daf171c56ad1ecec0caa4.py"
+      ],
+      [
+        "run_ippo.py",
+        "_sources\\run_ippo_1a1791e2bd9e007d59d7994ba19a7b15.py"
+      ],
+      [
+        "utils\\__init__.py",
+        "_sources\\__init___d41d8cd98f00b204e9800998ecf8427e.py"
+      ],
+      [
+        "utils\\logging.py",
+        "_sources\\logging_b34f6c4555eb49bb0e589c1d50b8f699.py"
+      ]
+    ]
+  },
+  "fail_trace": [
+    "Traceback (most recent call last):\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\sacred\\config\\captured_function.py\", line 42, in captured_function\n    result = wrapped(*args, **kwargs)\n",
+    "  File \"main.py\", line 37, in my_main\n    run_ippo(_run, config, _log)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\run_ippo.py\", line 90, in run\n    os._exit(os.EX_OK)\n",
+    "AttributeError: module 'os' has no attribute 'EX_OK'\n"
+  ],
+  "heartbeat": "2026-04-12T23:23:46.644616",
+  "host": {
+    "ENV": {},
+    "cpu": "AMD Ryzen 9 8945HS w/ Radeon 780M Graphics",
+    "hostname": "Auko",
+    "os": [
+      "Windows",
+      "Windows-10-10.0.26200-SP0"
+    ],
+    "python_version": "3.8.20"
+  },
+  "meta": {
+    "command": "my_main",
+    "config_updates": {
+      "save_model_interval": 1000,
+      "t_max": 2000
+    },
+    "named_configs": [],
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--id": null,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "t_max=2000",
+        "save_model_interval=1000"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2026-04-12T23:20:32.539551",
+  "status": "FAILED",
+  "stop_time": "2026-04-12T23:23:46.651617"
+}

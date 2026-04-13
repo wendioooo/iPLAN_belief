@@ -1,0 +1,122 @@
+{
+  "ippo_GAT_behavior_stable_H_Average episode_len": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 57.25
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 60.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 38.25
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 36.125
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 51.375
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 40.875
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_len_T": [
+    458,
+    942,
+    1248,
+    1537,
+    1948,
+    2275
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 160.70847561045372
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 150.08373926922638
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 177.22601743896098
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 179.72376744122266
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 184.10289790649404
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 191.65068208933502
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward_T": [
+    458,
+    942,
+    1248,
+    1537,
+    1948,
+    2275
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.375
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.25
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.125
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.25
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.125
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num_T": [
+    458,
+    942,
+    1248,
+    1537,
+    1948,
+    2275
+  ]
+}

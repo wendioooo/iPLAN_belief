@@ -1,0 +1,212 @@
+{
+  "ippo_GAT_behavior_stable_H_Average episode_len": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 88.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 51.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 55.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 89.0
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_len_T": [
+    178,
+    356,
+    534,
+    712,
+    890,
+    1068,
+    1246,
+    1422,
+    1524,
+    1635,
+    1813
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 256.22261634426894
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 205.32698463113783
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 154.03657106135194
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 127.90964064485767
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 134.09076346532544
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 200.98811482522837
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 280.078791922864
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 140.9700367960386
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 253.65034220270684
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 246.57748767356455
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 156.99579491732402
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward_T": [
+    178,
+    356,
+    534,
+    712,
+    890,
+    1068,
+    1246,
+    1422,
+    1524,
+    1635,
+    1813
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 3.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 2.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 2.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 3.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.5
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num_T": [
+    178,
+    356,
+    534,
+    712,
+    890,
+    1068,
+    1246,
+    1422,
+    1524,
+    1635,
+    1813
+  ]
+}

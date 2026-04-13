@@ -102,6 +102,19 @@ class ParallelRunner:
         self.env_steps_this_run = 0
         return state, obs
 
+    def _build_vehicle_presence_mask(self, single_history_out):
+        # single_history_out: [batch, n_agents, max_vehicle_num, obs_dim]
+        return (np.abs(single_history_out).sum(axis=-1, keepdims=True) > 0).astype(np.float32)
+
+    def _pool_instant_belief(self, attention_latent, single_history_out):
+        # attention_latent: [batch, n_agents, max_vehicle_num, attention_dim]
+        # pooled output: [batch, n_agents, attention_dim]
+        vehicle_mask = self._build_vehicle_presence_mask(single_history_out)
+        masked_attention = attention_latent * vehicle_mask
+        vehicle_count = np.clip(vehicle_mask.sum(axis=2), a_min=1.0, a_max=None)
+        instant_belief = masked_attention.sum(axis=2) / vehicle_count
+        return instant_belief.astype(np.float32)
+
     def run(self, test_mode=False):
         state, obs = self.reset()
 
@@ -149,6 +162,7 @@ class ParallelRunner:
         if self.args.GAT_enable:
             attention_latent = self.prediction_learner.GAT_latent_update \
                 (single_history_out, attention_latent, behavior_latent)
+        instant_belief = self._pool_instant_belief(attention_latent, single_history_out)
 
         # Store the transition data before the action execution
         pre_transition_data = {
@@ -158,8 +172,7 @@ class ParallelRunner:
             "rnn_states_critics": rnn_states_critics,
             "obs": obs,
             "history": single_history_out,
-            "behavior_latent": behavior_latent,
-            "attention_latent": attention_latent
+            "instant_belief": instant_belief
         }
         self.batch.update(pre_transition_data, ts=0)
 
@@ -222,6 +235,7 @@ class ParallelRunner:
             if self.args.GAT_enable:
                 attention_latent = self.prediction_learner.GAT_latent_update\
                     (single_history_out, attention_latent, behavior_latent)
+            instant_belief = self._pool_instant_belief(attention_latent, single_history_out)
 
             # Update the behavioral incentive
             if self.args.Behavior_enable:
@@ -251,8 +265,7 @@ class ParallelRunner:
                 "rnn_states_critics": rnn_states_critics,
                 "obs": obs,
                 "history": single_history_out,
-                "behavior_latent": behavior_latent,
-                "attention_latent": attention_latent
+                "instant_belief": instant_belief
             }
 
 

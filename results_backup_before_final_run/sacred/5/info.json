@@ -1,0 +1,302 @@
+{
+  "ippo_GAT_behavior_stable_H_Average episode_len": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 36.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 36.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 37.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 49.0
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_len_T": [
+    73,
+    171,
+    269,
+    367,
+    465,
+    538,
+    636,
+    710,
+    808,
+    906,
+    1004,
+    1102,
+    1200,
+    1298,
+    1396,
+    1494
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 120.5638029443762
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 96.64121391102496
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 118.01474972201073
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 127.23606542139498
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 87.72822163575496
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 163.53205460075904
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 119.1201218477805
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 85.2505311138396
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 97.6237348283788
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 134.31612857678124
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 121.73029907114366
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 112.0067279735037
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 97.30794467311024
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 163.74186691399396
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 155.81667558207607
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 102.34960897672559
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_reward_T": [
+    73,
+    171,
+    269,
+    367,
+    465,
+    538,
+    636,
+    710,
+    808,
+    906,
+    1004,
+    1102,
+    1200,
+    1298,
+    1396,
+    1494
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num": [
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 2.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 2.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 2.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 0.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 2.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.5
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 3.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 3.0
+    },
+    {
+      "dtype": "float64",
+      "py/object": "numpy.float64",
+      "value": 1.0
+    }
+  ],
+  "ippo_GAT_behavior_stable_H_Average episode_win_num_T": [
+    73,
+    171,
+    269,
+    367,
+    465,
+    538,
+    636,
+    710,
+    808,
+    906,
+    1004,
+    1102,
+    1200,
+    1298,
+    1396,
+    1494
+  ]
+}

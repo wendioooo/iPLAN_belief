@@ -1,0 +1,124 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "E:\\Projects\\PhD\\iplan\\iPLAN",
+    "dependencies": [
+      "numpy==1.24.4",
+      "PyYAML==6.0.3",
+      "sacred==0.8.7",
+      "torch==1.13.1+cu116"
+    ],
+    "mainfile": "main.py",
+    "name": "Highway_iPLAN",
+    "repositories": [
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources\\main_239eff7e0a3daf171c56ad1ecec0caa4.py"
+      ],
+      [
+        "run_ippo.py",
+        "_sources\\run_ippo_1328b0436f2f538ad4906f0385bfc374.py"
+      ],
+      [
+        "utils\\__init__.py",
+        "_sources\\__init___d41d8cd98f00b204e9800998ecf8427e.py"
+      ],
+      [
+        "utils\\logging.py",
+        "_sources\\logging_b34f6c4555eb49bb0e589c1d50b8f699.py"
+      ]
+    ]
+  },
+  "fail_trace": [
+    "Traceback (most recent call last):\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\sacred\\config\\captured_function.py\", line 42, in captured_function\n    result = wrapped(*args, **kwargs)\n",
+    "  File \"main.py\", line 37, in my_main\n    run_ippo(_run, config, _log)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\run_ippo.py\", line 75, in run\n    run_sequential(args=args, logger=logger)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\run_ippo.py\", line 264, in run_sequential\n    = runner.run(test_mode=False)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\runners\\ippo_parallel_runner.py\", line 172, in run\n    _, actions, _, rnn_states_actors, rnn_states_critics = self.mac.select_actions_ippo(self.batch,\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\controllers\\dcntrl_controller.py\", line 40, in select_actions_ippo\n    action, action_log_prob, rnn_states_actor = self.agents[agent_id](obs.unsqueeze(1),\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1194, in _call_impl\n    return forward_call(*input, **kwargs)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\modules\\agents\\ippo_actor.py\", line 69, in forward\n    actions, action_log_probs = self.act(\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1194, in _call_impl\n    return forward_call(*input, **kwargs)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\utils\\mappo_utils\\act.py\", line 81, in forward\n    action_logits = self.action_out(x, available_actions)\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1194, in _call_impl\n    return forward_call(*input, **kwargs)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\utils\\mappo_utils\\distributions.py\", line 67, in forward\n    x[available_actions == 0] = -1e10\n",
+    "IndexError: too many indices for tensor of dimension 2\n"
+  ],
+  "heartbeat": "2026-04-12T23:35:15.989234",
+  "host": {
+    "ENV": {},
+    "cpu": "AMD Ryzen 9 8945HS w/ Radeon 780M Graphics",
+    "hostname": "Auko",
+    "os": [
+      "Windows",
+      "Windows-10-10.0.26200-SP0"
+    ],
+    "python_version": "3.8.20"
+  },
+  "meta": {
+    "command": "my_main",
+    "config_updates": {
+      "save_model_interval": 1000,
+      "t_max": 2000
+    },
+    "named_configs": [],
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--id": null,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "t_max=2000",
+        "save_model_interval=1000"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2026-04-12T23:35:10.766760",
+  "status": "FAILED",
+  "stop_time": "2026-04-12T23:35:15.993228"
+}

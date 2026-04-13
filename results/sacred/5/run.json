@@ -1,0 +1,120 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "E:\\Projects\\PhD\\iplan\\iPLAN",
+    "dependencies": [
+      "numpy==1.24.4",
+      "PyYAML==6.0.3",
+      "sacred==0.8.7",
+      "torch==1.13.1+cu116"
+    ],
+    "mainfile": "main.py",
+    "name": "Highway_iPLAN",
+    "repositories": [
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      },
+      {
+        "commit": "961d632b7f39319a33895f5a2c5550c990978814",
+        "dirty": true,
+        "url": "https://github.com/wuxiyang1996/iPLAN.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources\\main_239eff7e0a3daf171c56ad1ecec0caa4.py"
+      ],
+      [
+        "run_ippo.py",
+        "_sources\\run_ippo_5fe821be5963e14778074c776ca16d2d.py"
+      ],
+      [
+        "utils\\__init__.py",
+        "_sources\\__init___d41d8cd98f00b204e9800998ecf8427e.py"
+      ],
+      [
+        "utils\\logging.py",
+        "_sources\\logging_b34f6c4555eb49bb0e589c1d50b8f699.py"
+      ]
+    ]
+  },
+  "fail_trace": [
+    "Traceback (most recent call last):\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\sacred\\config\\captured_function.py\", line 42, in captured_function\n    result = wrapped(*args, **kwargs)\n",
+    "  File \"main.py\", line 37, in my_main\n    run_ippo(_run, config, _log)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\run_ippo.py\", line 75, in run\n    run_sequential(args=args, logger=logger)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\run_ippo.py\", line 322, in run_sequential\n    learner.train(runner.t_env)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\learners\\ippo_learner.py\", line 271, in train\n    returns = self.compute_returns(agent_id, critic_obs_all, rewards, terminated_all, rnn_state_critic_all).clone().detach()\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\learners\\ippo_learner.py\", line 349, in compute_returns\n    value_preds = self.mac.get_value_ippo(agent_id, critic_obs_all, rnn_state_critic_all)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\controllers\\dcntrl_controller.py\", line 76, in get_value_ippo\n    value, _ = self.critics[agent_id](obs_in, hidden_in)\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1194, in _call_impl\n    return forward_call(*input, **kwargs)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\modules\\critics\\ippo_critic.py\", line 60, in forward\n    critic_features = self.base(obs)\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1194, in _call_impl\n    return forward_call(*input, **kwargs)\n",
+    "  File \"E:\\Projects\\PhD\\iplan\\iPLAN\\utils\\mappo_utils\\mlp.py\", line 52, in forward\n    x = self.feature_norm(x)\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\modules\\module.py\", line 1194, in _call_impl\n    return forward_call(*input, **kwargs)\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\modules\\normalization.py\", line 190, in forward\n    return F.layer_norm(\n",
+    "  File \"C:\\Users\\risin\\.conda\\envs\\iplan_clean\\lib\\site-packages\\torch\\nn\\functional.py\", line 2515, in layer_norm\n    return torch.layer_norm(input, normalized_shape, weight, bias, eps, torch.backends.cudnn.enabled)\n",
+    "RuntimeError: Given normalized_shape=[245], expected input with shape [*, 245], but got input of size[182, 1, 117]\n"
+  ],
+  "heartbeat": "2026-04-13T06:50:15.992747",
+  "host": {
+    "ENV": {},
+    "cpu": "AMD Ryzen 9 8945HS w/ Radeon 780M Graphics",
+    "hostname": "Auko",
+    "os": [
+      "Windows",
+      "Windows-10-10.0.26200-SP0"
+    ],
+    "python_version": "3.8.20"
+  },
+  "meta": {
+    "command": "my_main",
+    "config_updates": {},
+    "named_configs": [],
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--id": null,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [],
+      "help": false,
+      "with": false
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2026-04-13T06:49:52.135637",
+  "status": "FAILED",
+  "stop_time": "2026-04-13T06:50:15.999205"
+}

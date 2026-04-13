@@ -112,8 +112,7 @@ class IPPOLearner:
             terminated_mask = 1 - ep_batch["terminated"][:, :, i, :]
 
             histories = ep_batch["history"][:, :, i, :, :]
-            behavior_latent = ep_batch["behavior_latent"][:, :, i, :, :]
-            attention_latent = ep_batch["attention_latent"][:, :, i, :, :]
+            instant_belief = ep_batch["instant_belief"] if "instant_belief" in ep_batch.scheme else None
 
             buffer.insert(state, obses, 
                           rnn_states_actors, rnn_states_critics, 
@@ -121,8 +120,7 @@ class IPPOLearner:
                           rewards, 
                           terminated_mask,
                           histories=histories,
-                          behavior_latent=behavior_latent,
-                          attention_latent=attention_latent,
+                          instant_belief=instant_belief,
                           available_actions=available_actions)
 
     def cal_value_loss(self, values, value_preds_batch, return_batch, terminated_batch):
@@ -158,7 +156,7 @@ class IPPOLearner:
 
         return value_loss
 
-    def ppo_update(self, agent_id, obs_batch, rnn_states_actor_batch,
+    def ppo_update(self, agent_id, actor_obs_batch, critic_obs_batch, rnn_states_actor_batch,
                    rnn_states_critic_batch, actions_batch, value_preds_batch,
                    return_batch, terminated_batch, old_action_log_probs_batch,
                    adv_targ, available_actions_batch, update_actor=True):
@@ -173,13 +171,13 @@ class IPPOLearner:
         :return imp_weights: (th.Tensor) importance sampling weights.
         """
         action_log_probs, dist_entropy = self.mac.eval_action_ippo(agent_id, 
-                                                                   obs_batch,
+                                                                   actor_obs_batch,
                                                                    actions_batch, 
                                                                    available_actions_batch, 
                                                                    rnn_states_actor_batch)
 
         values = self.mac.get_value_ippo(agent_id, 
-                                         obs_batch,
+                                         critic_obs_batch,
                                          rnn_states_critic_batch)
         # actor update
         imp_weights = th.exp(action_log_probs - old_action_log_probs_batch)
@@ -264,12 +262,14 @@ class IPPOLearner:
             rnn_state_critic_all = batch["rnn_states_critic"]
             rnn_state_critic = batch["rnn_states_critic"][:, :-1]
 
-            obs_all = self.mac._build_inputs_ippo(agent_id, batch, actions_onehot_all, discr_signal=None)
-            obs = obs_all[:, :-1]
+            actor_obs_all = self.mac._build_actor_inputs_ippo(agent_id, batch, actions_onehot_all, discr_signal=None)
+            actor_obs = actor_obs_all[:, :-1]
+            critic_obs_all = self.mac._build_critic_inputs_ippo(agent_id, batch, actions_onehot_all, discr_signal=None)
+            critic_obs = critic_obs_all[:, :-1]
 
             # compute advantage
-            returns = self.compute_returns(agent_id, obs_all, rewards, terminated_all, rnn_state_critic_all).clone().detach()
-            current_values = self.mac.get_value_ippo(agent_id, obs, rnn_state_critic).clone().detach()
+            returns = self.compute_returns(agent_id, critic_obs_all, rewards, terminated_all, rnn_state_critic_all).clone().detach()
+            current_values = self.mac.get_value_ippo(agent_id, critic_obs, rnn_state_critic).clone().detach()
             advantages = returns - current_values
 
             # advantage normalization
@@ -278,23 +278,23 @@ class IPPOLearner:
             std_advantages, mean_advantages = th.std_mean(advantages_copy)
             advantages = (advantages_copy - mean_advantages) / (std_advantages + 1e-5)
 
-            action_log_probs, _ = self.mac.eval_action_ippo(agent_id, obs, actions, avail_actions, rnn_state_actor)
+            action_log_probs, _ = self.mac.eval_action_ippo(agent_id, actor_obs, actions, avail_actions, rnn_state_actor)
             action_log_probs = action_log_probs.clone().detach()
 
             for _ in range(self.ppo_epoch): # default: ppo_epoch=15
 
-                data_generator = self.generate_data(obs, rnn_state_actor, rnn_state_critic, actions, returns,
+                data_generator = self.generate_data(actor_obs, critic_obs, rnn_state_actor, rnn_state_critic, actions, returns,
                                                     terminated, action_log_probs, advantages, avail_actions,
                                                     current_values, self.num_mini_batch)
 
                 for sample in data_generator:
-                    obs_batch, rnn_states_actor_batch, \
+                    actor_obs_batch, critic_obs_batch, rnn_states_actor_batch, \
                     rnn_states_critic_batch, actions_batch, value_preds_batch, \
                     return_batch, terminated_batch, old_action_log_probs_batch, \
                     adv_targ, available_actions_batch = sample
 
                     value_loss, critic_grad_norm, policy_loss, dist_entropy, actor_grad_norm, imp_weights \
-                        = self.ppo_update(agent_id, obs_batch, 
+                        = self.ppo_update(agent_id, actor_obs_batch, critic_obs_batch,
                                           rnn_states_actor_batch, rnn_states_critic_batch, 
                                           actions_batch,
                                           value_preds_batch, return_batch, 
@@ -341,12 +341,12 @@ class IPPOLearner:
                 self.critic_optimizers[i].load_state_dict(th.load("{}/critic_{}_opt.th".format(paths[i], i), map_location=lambda storage, loc: storage))
 
 
-    def compute_returns(self, agent_id, obs_all, rewards, terminated, rnn_state_critic_all):
+    def compute_returns(self, agent_id, critic_obs_all, rewards, terminated, rnn_state_critic_all):
         """
         Take as input the batch of obs, critic_rnn_state, rewards and masks to then compute the returns
         Shape: (n_eps, timesteps, feat_size)
         """
-        value_preds = self.mac.get_value_ippo(agent_id, obs_all, rnn_state_critic_all)
+        value_preds = self.mac.get_value_ippo(agent_id, critic_obs_all, rnn_state_critic_all)
         returns = []
         T = rewards.shape[1]
 
@@ -365,7 +365,7 @@ class IPPOLearner:
         return returns[:, :T]
 
     """ DATA GENERATION CODE FROM SEPARATED BUFFER """
-    def generate_data(self, obs, rnn_states_actor, rnn_states_critic, actions, returns,
+    def generate_data(self, actor_obs, critic_obs, rnn_states_actor, rnn_states_critic, actions, returns,
                       terminated, action_log_probs, advantages, available_actions,
                       value_preds,
                       num_mini_batch=None, mini_batch_size=None):
@@ -385,13 +385,14 @@ class IPPOLearner:
 
         sampler = [th.Tensor(rand[i * mini_batch_size:(i + 1) * mini_batch_size]).long().to(self.device) for i in range(num_mini_batch)]
 
-        obs = obs.reshape(-1, *obs.shape[2:])
+        actor_obs = actor_obs.reshape(-1, *actor_obs.shape[2:])
+        critic_obs = critic_obs.reshape(-1, *critic_obs.shape[2:])
         rnn_states_actor = rnn_states_actor.reshape(-1, *rnn_states_actor.shape[2:])
         rnn_states_critic = rnn_states_critic.reshape(-1, *rnn_states_critic.shape[2:])
         actions = actions.reshape(-1, actions.shape[-1])
 
         if available_actions is not None:
-            available_actions = available_actions[:-1].reshape(-1, available_actions.shape[-1])
+            available_actions = available_actions.reshape(-1, available_actions.shape[-1])
 
         value_preds = value_preds.reshape(-1, 1) # Why are we cutting off value preds 1 before?? Leads to a size inconsistency
         returns = returns.reshape(-1, 1)
@@ -401,7 +402,8 @@ class IPPOLearner:
 
         for indices in sampler:
             # obs size [T+1 N Dim]-->[T N Dim]-->[T*N,Dim]-->[index,Dim]
-            obs_batch = obs[indices]
+            actor_obs_batch = actor_obs[indices]
+            critic_obs_batch = critic_obs[indices]
             rnn_states_actor_batch = rnn_states_actor[indices]
             rnn_states_critic_batch = rnn_states_critic[indices]
             actions_batch = actions[indices]
@@ -421,4 +423,4 @@ class IPPOLearner:
             else:
                 adv_targ = advantages[indices]
 
-            yield obs_batch, rnn_states_actor_batch, rnn_states_critic_batch, actions_batch, value_preds_batch, return_batch, terminated_batch, old_action_log_probs_batch, adv_targ, available_actions_batch
+            yield actor_obs_batch, critic_obs_batch, rnn_states_actor_batch, rnn_states_critic_batch, actions_batch, value_preds_batch, return_batch, terminated_batch, old_action_log_probs_batch, adv_targ, available_actions_batch

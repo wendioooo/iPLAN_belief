@@ -11,10 +11,11 @@ class DcntrlMAC:
     def __init__(self, scheme, groups, args):
         self.n_agents = args.n_agents
         self.args = args
-        input_shape = self._get_input_shape(scheme)
+        actor_input_shape = self._get_actor_input_shape(scheme)
+        critic_input_shape = self._get_critic_input_shape(scheme)
 
-        self._build_agents(input_shape)
-        self._build_critics(input_shape)
+        self._build_agents(actor_input_shape)
+        self._build_critics(critic_input_shape)
 
         self.agent_output_type = args.agent_output_type
 
@@ -25,7 +26,8 @@ class DcntrlMAC:
 
 ### IPPO ###
     def select_actions_ippo(self, ep_batch, t_ep, test_mode=False):
-        actors_inputs = self._build_inputs(ep_batch, t_ep)
+        actors_inputs = self._build_actor_inputs(ep_batch, t_ep)
+        critic_inputs = self._build_critic_inputs(ep_batch, t_ep)
         avail_actions_actors = ep_batch["avail_actions"][:, t_ep]
         rnn_states_actors = ep_batch["rnn_states_actors"][:, t_ep]
         rnn_states_critics = ep_batch["rnn_states_critics"][:, t_ep]
@@ -33,20 +35,28 @@ class DcntrlMAC:
         values, actions, action_log_probs, rnn_states_actors_new, rnn_states_critics_new = [], [], [], [], []
         for agent_id in range(self.args.n_agents):
             obs = actors_inputs[:, agent_id, :]
+            critic_obs = critic_inputs[:, agent_id, :]
             avail_actions = avail_actions_actors[:, agent_id, :]
             rnn_states_actor = rnn_states_actors[:, agent_id, :]
             rnn_states_critic = rnn_states_critics[:, agent_id, :]
+            avail_actions_actor = avail_actions.unsqueeze(1) if obs.shape[0] > 1 else avail_actions
 
             action, action_log_prob, rnn_states_actor = self.agents[agent_id](obs.unsqueeze(1),
                                                                               rnn_states_actor.unsqueeze(0),
-                                                                              avail_actions.unsqueeze(1),
+                                                                              avail_actions_actor,
                                                                               deterministic=True if test_mode else False)
+            if action.dim() == 2:
+                action = action.unsqueeze(1)
+            if action_log_prob.dim() == 2:
+                action_log_prob = action_log_prob.unsqueeze(1)
             actions.append(action)
             action_log_probs.append(action_log_prob)
             rnn_states_actors_new.append(rnn_states_actor.unsqueeze(2))
 
-            value, rnn_states_critic = self.critics[agent_id](obs.unsqueeze(1),
+            value, rnn_states_critic = self.critics[agent_id](critic_obs.unsqueeze(1),
                                                               rnn_states_critic.unsqueeze(0))
+            if value.dim() == 2:
+                value = value.unsqueeze(1)
             values.append(value)
             rnn_states_critics_new.append(rnn_states_critic.unsqueeze(2))
 
@@ -85,19 +95,16 @@ class DcntrlMAC:
         return action_log_probs_out, dist_entropy
 
     def _build_inputs_ippo(self, agent_id, batch, action_onehot, discr_signal=None):
+        return self._build_actor_inputs_ippo(agent_id, batch, action_onehot, discr_signal)
+
+    def _build_actor_inputs_ippo(self, agent_id, batch, action_onehot, discr_signal=None):
         # Assumes homogenous agents with flat observations.
         # builds inputs for one agent, all timesteps
         bs, num_ts, _, _ = batch["history"].shape
 
-        # Here, we need to concat all history, behavior and attention latent
         states = []
 
         states.append(batch["history"])
-        if self.args.GAT_enable:
-            states.append(batch["attention_latent"])
-
-        if self.args.Behavior_enable:
-            states.append(batch["behavior_latent"])
         states = th.cat(states, dim=-1)
 
         inputs = []
@@ -113,6 +120,15 @@ class DcntrlMAC:
 
         inputs = th.cat(inputs, dim=-1)
         return inputs
+
+    def _build_critic_inputs_ippo(self, agent_id, batch, action_onehot=None, discr_signal=None):
+        state = batch["state"]
+        instant_belief = batch["instant_belief"]
+
+        bs, num_ts = state.shape[0], state.shape[1]
+        instant_belief = instant_belief.reshape(bs, num_ts, -1)
+        critic_inputs = th.cat([state, instant_belief], dim=-1)
+        return critic_inputs
 ### IPPO ###
 
     def init_hidden(self, batch_size):
@@ -185,17 +201,15 @@ class DcntrlMAC:
                 self.critics.append(R_Critic(input_shape, self.args))
 
     def _build_inputs(self, batch, t):
+        return self._build_actor_inputs(batch, t)
+
+    def _build_actor_inputs(self, batch, t):
         # Assumes homogenous agents with flat observations.
         # Other MACs might want to e.g. delegate building inputs to each agent
         bs = batch.batch_size
         states = []
 
         states.append(batch["history"][:, t])
-        if self.args.GAT_enable:
-            states.append(batch["attention_latent"][:, t])
-
-        if self.args.Behavior_enable:
-            states.append(batch["behavior_latent"][:, t])
         states = th.cat(states, dim=-1)
 
         inputs = []
@@ -212,22 +226,42 @@ class DcntrlMAC:
         inputs = th.cat([x.reshape(bs, self.n_agents, -1) for x in inputs], dim=2)
         return inputs
 
-    def _get_input_shape(self, scheme):
+    def _build_critic_inputs(self, batch, t):
+        bs = batch.batch_size
+        state = batch["state"][:, t]
+        instant_belief = batch["instant_belief"][:, t].reshape(bs, -1)
+        critic_inputs = th.cat([state, instant_belief], dim=-1)
+        critic_inputs = critic_inputs.unsqueeze(1).expand(-1, self.n_agents, -1)
+        return critic_inputs
+
+    def _get_actor_input_shape(self, scheme):
         history_shape = scheme["history"]["vshape"]
         input_shape = history_shape[0] * history_shape[1]
-
-        if self.args.GAT_enable:
-            attention_shape = scheme["attention_latent"]["vshape"]
-            input_shape += attention_shape[0] * attention_shape[1]
-
-        if self.args.Behavior_enable:
-            behavior_shape = scheme["behavior_latent"]["vshape"]
-            input_shape += behavior_shape[0] * behavior_shape[1]
 
         if self.args.obs_last_action:
             input_shape += scheme["actions_onehot"]["vshape"][0]
         if self.args.obs_agent_id:
             input_shape += self.n_agents
 
+        return input_shape
+
+    def _get_critic_input_shape(self, scheme):
+        state_shape = scheme["state"]["vshape"]
+        if isinstance(state_shape, tuple):
+            input_shape = 1
+            for dim in state_shape:
+                input_shape *= dim
+        else:
+            input_shape = state_shape
+
+        instant_belief_shape = scheme["instant_belief"]["vshape"]
+        if isinstance(instant_belief_shape, tuple):
+            instant_dim = 1
+            for dim in instant_belief_shape:
+                instant_dim *= dim
+        else:
+            instant_dim = instant_belief_shape
+
+        input_shape += self.n_agents * instant_dim
         return input_shape
 
