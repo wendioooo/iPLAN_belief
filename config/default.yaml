@@ -18,8 +18,7 @@ use_cuda: False # Use gpu by default unless it isn't available
 buffer_cpu_only: True # If true we won't keep all of the replay buffer in vram
 
 checkpoint_paths: [""]
-belief_checkpoint_paths:
-  - 'E:\Projects\PhD\iplan\iPLAN\results\models\ippo_highway__seed=81696026_04-12-21-57-50\40433'
+belief_checkpoint_paths: [""]
 num_test_episodes: 8 # Number of test episodes, must be larger than batch_size_run
 
 # --- Logging options ---
@@ -45,6 +44,7 @@ grad_norm_clip: 10 # Reduce magnitude of gradients above this L2 norm
 # --- Agent parameters ---
 agent: "ippo"
 critic: "ippo"
+critic_use_instant_belief: False
 rnn_hidden_dim: 64 # Size of hidden state for rnn layers
 mlp_hidden_dim: 64 # Size of MLP layers
 obs_agent_id: True
@@ -61,7 +61,7 @@ max_history_len: 10 # History length in the observation wrapper
 
 ############################
 # Behavior Net args
-Behavior_enable: True # Enable behavior inference module
+Behavior_enable: False # Enable behavior inference module
 Behavior_warmup: 20000 # Wait for some steps before starting training behavioral incentive inference module
 encoder_rnn_dim: 32 # Hidden layer dimension for behavioral incentive inference module encoder
 num_encoder_layer: 1 # Hidden layer number for behavioral incentive inference module encoder
@@ -84,8 +84,8 @@ behavior_fully_connected: False # Use fully connected behavior module
 
 ##########################
 # GAT traj prediction args
-GAT_enable: True # Enable GAT inference module
-GAT_use_behavior: True # Enable to use behavior latent state in GAT
+GAT_enable: False # Enable GAT inference module
+GAT_use_behavior: False # Enable to use behavior latent state in GAT
 GAT_warmup: 20000 # Wait for some steps before starting training instant incentive inference module
 GAT_hidden_dim: 32 # Hidden layer dimension for instant incentive inference module decoder
 attention_dim: 32 # Dimension of instant incentive latent representation
@@ -97,7 +97,7 @@ pred_dropout: 0.1 # Dropout rate of instant incentive inference module
 pred_length: 5 # State prediction length
 
 # Frozen pretrained belief module settings for MAPPO-instant style runs
-belief_frozen: True
+belief_frozen: False
 
 #########################
 use_max_grad_norm: True # Flag of using max_grad_norm

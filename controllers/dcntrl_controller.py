@@ -123,8 +123,10 @@ class DcntrlMAC:
 
     def _build_critic_inputs_ippo(self, agent_id, batch, action_onehot=None, discr_signal=None):
         state = batch["state"]
-        instant_belief = batch["instant_belief"]
+        if not getattr(self.args, "critic_use_instant_belief", True):
+            return state
 
+        instant_belief = batch["instant_belief"]
         bs, num_ts = state.shape[0], state.shape[1]
         instant_belief = instant_belief.reshape(bs, num_ts, -1)
         critic_inputs = th.cat([state, instant_belief], dim=-1)
@@ -229,8 +231,11 @@ class DcntrlMAC:
     def _build_critic_inputs(self, batch, t):
         bs = batch.batch_size
         state = batch["state"][:, t]
-        instant_belief = batch["instant_belief"][:, t].reshape(bs, -1)
-        critic_inputs = th.cat([state, instant_belief], dim=-1)
+        if getattr(self.args, "critic_use_instant_belief", True):
+            instant_belief = batch["instant_belief"][:, t].reshape(bs, -1)
+            critic_inputs = th.cat([state, instant_belief], dim=-1)
+        else:
+            critic_inputs = state
         critic_inputs = critic_inputs.unsqueeze(1).expand(-1, self.n_agents, -1)
         return critic_inputs
 
@@ -254,14 +259,15 @@ class DcntrlMAC:
         else:
             input_shape = state_shape
 
-        instant_belief_shape = scheme["instant_belief"]["vshape"]
-        if isinstance(instant_belief_shape, tuple):
-            instant_dim = 1
-            for dim in instant_belief_shape:
-                instant_dim *= dim
-        else:
-            instant_dim = instant_belief_shape
+        if getattr(self.args, "critic_use_instant_belief", True):
+            instant_belief_shape = scheme["instant_belief"]["vshape"]
+            if isinstance(instant_belief_shape, tuple):
+                instant_dim = 1
+                for dim in instant_belief_shape:
+                    instant_dim *= dim
+            else:
+                instant_dim = instant_belief_shape
 
-        input_shape += self.n_agents * instant_dim
+            input_shape += self.n_agents * instant_dim
         return input_shape
 
