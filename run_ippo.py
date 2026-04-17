@@ -105,6 +105,7 @@ def get_model_path(checkpoint_path, load_step):
         "critic_0.th",
         "behavior_encoder_0.th",
         "pred_GAT_0.th",
+        "pred_ST_0.th",
     ]
     if any(os.path.isfile(os.path.join(checkpoint_path, name)) for name in direct_step_files):
         print("MODEL PATH IS ", checkpoint_path)
@@ -197,6 +198,8 @@ def run_sequential(args, logger):
 
         # Processed observation for every vehicle
         "history": {"vshape": (args.max_vehicle_num, args.obs_shape_single,), "group": "agents"},
+        # Full per-vehicle instant encoder hidden states for prediction training
+        "attention_latent": {"vshape": (args.max_vehicle_num, args.attention_dim,), "group": "agents"},
         # Pooled instant belief summary for MAPPO-instant
         "instant_belief": {"vshape": (args.attention_dim,), "group": "agents"},
 

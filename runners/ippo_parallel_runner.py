@@ -109,10 +109,12 @@ class ParallelRunner:
     def _pool_instant_belief(self, attention_latent, single_history_out):
         # attention_latent: [batch, n_agents, max_vehicle_num, attention_dim]
         # pooled output: [batch, n_agents, attention_dim]
+        attention_latent = np.nan_to_num(attention_latent, nan=0.0, posinf=10.0, neginf=-10.0)
         vehicle_mask = self._build_vehicle_presence_mask(single_history_out)
         masked_attention = attention_latent * vehicle_mask
         vehicle_count = np.clip(vehicle_mask.sum(axis=2), a_min=1.0, a_max=None)
         instant_belief = masked_attention.sum(axis=2) / vehicle_count
+        instant_belief = np.nan_to_num(instant_belief, nan=0.0, posinf=10.0, neginf=-10.0)
         return instant_belief.astype(np.float32)
 
     def run(self, test_mode=False):
@@ -172,6 +174,7 @@ class ParallelRunner:
             "rnn_states_critics": rnn_states_critics,
             "obs": obs,
             "history": single_history_out,
+            "attention_latent": attention_latent.astype(np.float32),
             "instant_belief": instant_belief
         }
         self.batch.update(pre_transition_data, ts=0)
@@ -265,6 +268,7 @@ class ParallelRunner:
                 "rnn_states_critics": rnn_states_critics,
                 "obs": obs,
                 "history": single_history_out,
+                "attention_latent": attention_latent.astype(np.float32),
                 "instant_belief": instant_belief
             }
 

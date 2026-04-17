@@ -84,6 +84,7 @@ behavior_fully_connected: False # Use fully connected behavior module
 
 ##########################
 # GAT traj prediction args
+instant_encoder_type: "gat" # Instant encoder type: gat | st
 GAT_enable: True # Enable GAT inference module
 GAT_use_behavior: True # Enable to use behavior latent state in GAT
 GAT_warmup: 20000 # Wait for some steps before starting training instant incentive inference module

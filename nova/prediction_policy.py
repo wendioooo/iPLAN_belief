@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import os
 from nova.GAT_Net import GAT_Net
+from nova.ST_Net import ST_Net
 from nova.prediction_net import Prediction_Decoder
 from utils.mappo_utils.util import get_grad_norm
 import time
@@ -10,6 +11,7 @@ import copy
 import numpy as np
 
 EPS = 1e-10
+LATENT_CLAMP = 10.0
 
 class Prediction_policy:
     def __init__(self, args, logger):
@@ -48,6 +50,7 @@ class Prediction_policy:
         self.logger = logger
         self.log_prefix = args.log_prefix
         self.log_stats_t = -self.args.learner_log_interval - 1
+        self.instant_encoder_type = getattr(args, "instant_encoder_type", "gat").lower()
 
         # Whether use the behavioral incentive in instant incentive prediction
         if self.args.GAT_use_behavior:
@@ -66,8 +69,17 @@ class Prediction_policy:
         self.pred_decoder = []
         self.pred_optimizer = []
 
+        if self.instant_encoder_type == "gat":
+            encoder_cls = GAT_Net
+            self.pred_encoder_prefix = "pred_GAT"
+        elif self.instant_encoder_type == "st":
+            encoder_cls = ST_Net
+            self.pred_encoder_prefix = "pred_ST"
+        else:
+            raise ValueError(f"Unsupported instant_encoder_type: {self.instant_encoder_type}")
+
         for i in range(self.n_agents):
-            self.pred_GAT.append(GAT_Net(input_shape=self.GAT_input_dim, args=self.args).to(self.device))
+            self.pred_GAT.append(encoder_cls(input_shape=self.GAT_input_dim, args=self.args).to(self.device))
 
             #######################################
             self.pred_decoder.append(Prediction_Decoder(
@@ -108,12 +120,17 @@ class Prediction_policy:
             encoder_hidden_per = encoder_hidden_per.reshape(n_thread * max_vehicle_num, attention_dim)
 
             encoder_hidden_per = self.pred_GAT[i](history_single_per, encoder_hidden_per)
+            encoder_hidden_per = torch.nan_to_num(encoder_hidden_per, nan=0.0,
+                                                  posinf=LATENT_CLAMP, neginf=-LATENT_CLAMP)
+            encoder_hidden_per = encoder_hidden_per.clamp(min=-LATENT_CLAMP, max=LATENT_CLAMP)
             encoder_hidden_per = encoder_hidden_per.reshape(n_thread, max_vehicle_num, attention_dim)
             encoder_hidden_per = encoder_hidden_per.unsqueeze(1)
             new_hidden.append(encoder_hidden_per)
 
         # Output: Attention latent: [n_thread, n_agent, max_vehicle_num, attention_dim]
         attention_latent = torch.cat(new_hidden, dim=1)
+        attention_latent = torch.nan_to_num(attention_latent, nan=0.0,
+                                            posinf=LATENT_CLAMP, neginf=-LATENT_CLAMP)
         attention_latent = attention_latent.cpu().detach().numpy()
         return attention_latent
 
@@ -128,8 +145,8 @@ class Prediction_policy:
         # Attention rnn (From episode batch): [n_thread, max_episode_len, max_vehicle_num, attention_dim]
         # Mask: [n_thread, max_episode_len]
         n_thread, max_episode_len, max_vehicle_num, obs_dim = history.shape
-        _, _, _, latent_dim = behavior_latent.shape
         _, _, _, attention_dim = attention_rnn.shape
+        latent_dim = behavior_latent.shape[-1] if behavior_latent is not None else 0
 
         input_traj = torch.zeros((self.prediction_batch_size, max_vehicle_num, 1, obs_dim))
         input_attention = torch.zeros((self.prediction_batch_size, max_vehicle_num, 1, attention_dim))
@@ -179,15 +196,15 @@ class Prediction_policy:
         # Attention latent: [n_thread, max_episode_len, n_agent, max_vehicle_num, attention_dim]
         history = batch["history"][:, :-1]
         attention_latent = batch["attention_latent"][:, :-1]
-        behavior_latent = batch["behavior_latent"][:, :-1]
         agent_terminate = batch["terminated"][:, :-1]
         n_thread, max_episode_len, n_agent, max_vehicle_num, obs_dim = history.shape
-        latent_dim = behavior_latent.shape[-1]
+        behavior_latent = batch["behavior_latent"][:, :-1] if self.args.GAT_use_behavior else None
+        latent_dim = behavior_latent.shape[-1] if behavior_latent is not None else 0
 
         for i in range(n_agent):
             agent_history = history[:, :, i]
             agent_attention_latent = attention_latent[:, :, i]
-            agent_behavior_latent = behavior_latent[:, :, i]
+            agent_behavior_latent = behavior_latent[:, :, i] if behavior_latent is not None else None
             mask = agent_terminate[:, :, i, 0]
 
             # Input_state: [prediction_batch, max_vehicle_num, 1, obs_dim]
@@ -211,6 +228,9 @@ class Prediction_policy:
 
             # Output (Attention after encoding): [prediction_batch * max_vehicle_num, attention_dim]
             encoder_hidden = self.pred_GAT[i](history_single_per, encoder_hidden)
+            encoder_hidden = torch.nan_to_num(encoder_hidden, nan=0.0,
+                                              posinf=LATENT_CLAMP, neginf=-LATENT_CLAMP)
+            encoder_hidden = encoder_hidden.clamp(min=-LATENT_CLAMP, max=LATENT_CLAMP)
 
             # Decoder (Seq2Seq)
             # Predicted_state: [batch_Size, max_vehicle_num, pred_length, obs_dim]
@@ -223,6 +243,11 @@ class Prediction_policy:
             error = torch.mul(torch.abs(actual_traj - pred_traj), mask_over_traj)
             # Average over batch size and threads
             loss = error.sum() / (mask_over_traj.sum() + EPS) * obs_dim * self.args.pred_length
+
+            if not torch.isfinite(loss):
+                self.pred_optimizer[i].zero_grad()
+                prediction_loss.append(float("nan"))
+                continue
 
             self.pred_optimizer[i].zero_grad()
             loss.backward()
@@ -238,6 +263,14 @@ class Prediction_policy:
             else:
                 pred_decoder_grad_norm = get_grad_norm(self.pred_decoder[i].parameters())
 
+            for pred_param in self.pred_GAT[i].parameters():
+                if pred_param.grad is not None:
+                    pred_param.grad = torch.nan_to_num(pred_param.grad, nan=0.0,
+                                                       posinf=0.0, neginf=0.0)
+            for decoder_param in self.pred_decoder[i].parameters():
+                if decoder_param.grad is not None:
+                    decoder_param.grad = torch.nan_to_num(decoder_param.grad, nan=0.0,
+                                                          posinf=0.0, neginf=0.0)
             self.pred_optimizer[i].step()
             prediction_loss.append(loss.cpu().detach().numpy())
 
@@ -255,7 +288,7 @@ class Prediction_policy:
     # Save models
     def save_models(self, path):
         for i, pred_GAT in enumerate(self.pred_GAT):
-            torch.save(pred_GAT.state_dict(), f"{path}/pred_GAT_{i}.th")
+            torch.save(pred_GAT.state_dict(), f"{path}/{self.pred_encoder_prefix}_{i}.th")
         for i, pred_decoder in enumerate(self.pred_decoder):
             torch.save(pred_decoder.state_dict(), f"{path}/pred_decoder_{i}.th")
         for i in range(self.n_agents):
@@ -269,7 +302,7 @@ class Prediction_policy:
 
         for i, pred_GAT in enumerate(self.pred_GAT):
             pred_GAT.load_state_dict(
-                torch.load("{}/pred_GAT_{}.th".format(paths[i], i),
+                torch.load("{}/{}_{}.th".format(paths[i], self.pred_encoder_prefix, i),
                             map_location=lambda storage, loc: storage))
         for i, pred_decoder in enumerate(self.pred_decoder):
             pred_decoder.load_state_dict(
