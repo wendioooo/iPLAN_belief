@@ -8,18 +8,6 @@ lives on the `belief-usage` branch.
 
 ---
 
-## What we modified
-
-In iPLAN, the "belief" is the per-vehicle latent that an EncoderRNN distills from each
-observed neighbor's recent history; iPLAN's Eq. (3) then EMA-updates this latent with a
-constant gain. Our changes touch only the encoder / posterior / latent-update path:
-
-| File | Change |
-|------|--------|
-| [nova/mvp_utils.py](nova/mvp_utils.py) | New file. `reparameterize`, `kl_standard_normal` (with free bits), and `AdaptiveEtaMLP` (η = sigmoid(MLP(log σ²))). |
-| [nova/behavior_net.py](nova/behavior_net.py) | `EncoderRNN` gains an optional `gaussian=True` mode that emits (μ, log σ²) via a parallel `logvar_head` instead of a softmax categorical head. |
-| [nova/stable_behavior_policy.py](nova/stable_behavior_policy.py) | `__init__`, `latent_update`, and `learn` gain an MVP branch: Gaussian encoder → reparameterized sample → IB KL term → adaptive Kalman gain replaces the constant-η EMA. |
-
 
 ## Running
 
@@ -65,17 +53,6 @@ GPUS="0 1 2 3" BEHAVIOR_WARMUP=500 GAT_WARMUP=500 \
 
 ---
 
-## Belief usage
-
-The downstream consumers of the belief latent — `GAT_Net`, the instant-incentive predictor,
-and how each is wired into the controller / learner — are documented on the `belief-usage`
-branch:
-
-```bash
-git checkout belief-usage
-```
-
----
 
 ## Acknowledgement
 
