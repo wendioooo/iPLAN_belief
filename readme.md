@@ -1,11 +1,23 @@
 # iPLAN — Belief Representation & Belif Usage
-
+This repository contains our CSCE 635 final project on belief integration in a MAPPO-style framework for heterogeneous highway driving.
 This fork extends [**iPLAN**](https://arxiv.org/abs/2306.06236) (Wu et al., CoRL 2023).
 
 This branch documents the **belief representation** side — i.e. how the latent is produced.
-Downstream **belief usage** (how the GAT, predictor, and policy heads consume the latent)
-lives on the `belief-usage` branch.
+Downstream **belief utilization** (how the GAT, predictor, and policy heads consume the latent)
 
+## Branch Guide
+
+- `master`  
+  Original iPLAN starting point.
+
+- `mappo-base`  
+  MAPPO baseline without belief integration.  
+  
+- `mappo-instant`  
+  MAPPO with critic-side instant belief integration.  
+
+- `mappo-st-instant`  
+  MAPPO with ST-based instant belief integration.  
 ---
 
 
