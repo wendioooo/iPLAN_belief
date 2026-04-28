@@ -8,7 +8,7 @@ Downstream **belief utilization** (how the GAT, predictor, and policy heads cons
 ## Branch Guide
 
 - `master`  
-  Original iPLAN starting point.
+  iPLAN training checkpoint.
 
 - `mappo-base`  
   MAPPO baseline without belief integration.  
