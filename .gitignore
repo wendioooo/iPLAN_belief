@@ -1,0 +1,42 @@
+# Results & experiment outputs
+results/
+animation/
+animation_*/
+figs/
+*.log
+iplan_run.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+
+# Model checkpoints / data artifacts
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.tar
+*.tar.gz
+*.zip
+
+# Environments & editors
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
